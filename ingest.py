@@ -88,8 +88,7 @@ class Ingest:
 
                 db = Chroma.from_documents(documents, embeddings, persist_directory=persist_directory,
                                            client_settings=CHROMA_SETTINGS)
-                db.persist()
-                db = None
+                
                 print("Data ingested successfully !!!! now you can run wiki-ai.py")
             except Exception as e:
                 raise e
@@ -104,6 +103,8 @@ class Ingest:
                 print(f"Found embeddings for {file}")
             documents = load_documents(source_dir=source_directory, ignored_files=ignored_files)
             db.add_documents(documents)
+        db.persist()
+        db = None
 
     def run(self):
         self.create_directories()
